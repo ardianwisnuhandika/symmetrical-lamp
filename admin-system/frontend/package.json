@@ -1,0 +1,22 @@
+{
+  "name": "admin-system-frontend",
+  "version": "1.0.0",
+  "description": "Frontend components for plug-and-play admin system with RBAC",
+  "type": "module",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "react-router-dom": "^6.0.0 || ^7.0.0",
+    "lucide-react": "^0.200.0"
+  },
+  "keywords": [
+    "admin",
+    "rbac",
+    "authentication",
+    "authorization",
+    "react",
+    "admin-panel"
+  ],
+  "author": "",
+  "license": "MIT"
+}

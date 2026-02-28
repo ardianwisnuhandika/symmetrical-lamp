@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Samudra Module - Placeholder for future marine/water infrastructure monitoring.
+ *
+ * This module will handle:
+ * - Monitoring of water infrastructure (Samudra = Sea/Marine)
+ * - Integration with the core Luminous Jepara GIS system
+ * - Additional map layers and data points
+ *
+ * @package App\Modules\Samudra
+ */
