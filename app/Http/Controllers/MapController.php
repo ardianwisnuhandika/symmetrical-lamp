@@ -22,8 +22,8 @@ class MapController extends Controller
         return response()->json($points->map(fn($p) => [
             'id' => $p->id,
             'nama' => $p->nama,
-            'kategori' => $p->kategori,
-            'jenis' => $p->jenis,
+            'kategori' => $p->category ? $p->category->name : null,
+            'jenis' => $p->pjuType ? $p->pjuType->name : null,
             'daya' => $p->daya,
             'letak' => $p->letak,
             'type' => $p->type,

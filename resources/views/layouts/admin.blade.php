@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - Luminous Jepara Admin</title>
+    <title>@yield('title', 'Dashboard') - Dishub Jepara Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -73,15 +73,13 @@
         .logo-mark {
             width: 44px;
             height: 44px;
-            border-radius: 14px;
-            background: linear-gradient(145deg, var(--accent), #d97706);
-            color: #1e1300;
-            display: grid;
-            place-items: center;
-            font-size: 20px;
-            font-weight: 800;
-            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.28);
             flex-shrink: 0;
+        }
+        
+        .logo-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .brand-title {
@@ -609,9 +607,11 @@
 <body>
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="logo-mark">LJ</div>
+            <div class="logo-mark">
+                <img src="{{ asset('images/logo-dishub.png') }}" alt="Logo Dishub Jepara">
+            </div>
             <div>
-                <div class="brand-title">Luminous Jepara</div>
+                <div class="brand-title">Dishub Jepara</div>
                 <div class="brand-sub">Admin Panel</div>
             </div>
         </div>
@@ -683,7 +683,7 @@
     <div class="main">
         <header class="topbar">
             <div class="topbar-left">
-                <button class="menu-btn" onclick="toggleSidebar()">?</button>
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
                 <span class="page-title">@yield('page-title', 'Dashboard')</span>
             </div>
             <div class="topbar-right">
@@ -697,10 +697,10 @@
         <main class="page">
             <div class="shell">
                 @if(session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success">✅ {{ session('success') }}</div>
                 @endif
                 @if(session('error'))
-                    <div class="alert alert-error">{{ session('error') }}</div>
+                    <div class="alert alert-error">❌ {{ session('error') }}</div>
                 @endif
 
                 @yield('content')

@@ -9,17 +9,23 @@ class PjuService
 {
     public function getAll(array $filters = [])
     {
-        $query = PjuPoint::with(['creator', 'verifier'])
+        $query = PjuPoint::with(['creator', 'verifier', 'category', 'pjuType', 'kecamatan', 'desa'])
             ->latest();
 
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
-        if (!empty($filters['kategori'])) {
-            $query->where('kategori', $filters['kategori']);
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
         }
-        if (!empty($filters['jenis'])) {
-            $query->where('jenis', $filters['jenis']);
+        if (!empty($filters['pju_type_id'])) {
+            $query->where('pju_type_id', $filters['pju_type_id']);
+        }
+        if (!empty($filters['kecamatan_id'])) {
+            $query->where('kecamatan_id', $filters['kecamatan_id']);
+        }
+        if (!empty($filters['desa_id'])) {
+            $query->where('desa_id', $filters['desa_id']);
         }
         if (!empty($filters['search'])) {
             $query->where('nama', 'like', '%' . $filters['search'] . '%');
@@ -30,19 +36,20 @@ class PjuService
 
     public function getAllForMap(): \Illuminate\Database\Eloquent\Collection
     {
-        return PjuPoint::select([
-            'id',
-            'nama',
-            'kategori',
-            'jenis',
-            'daya',
-            'letak',
-            'type',
-            'lat',
-            'long',
-            'status',
-            'is_verified',
-        ])->get();
+        return PjuPoint::with(['category', 'pjuType'])
+            ->select([
+                'id',
+                'nama',
+                'category_id',
+                'pju_type_id',
+                'daya',
+                'letak',
+                'type',
+                'lat',
+                'long',
+                'status',
+                'is_verified',
+            ])->get();
     }
 
     public function create(array $data): PjuPoint

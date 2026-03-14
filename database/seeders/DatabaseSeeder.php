@@ -64,6 +64,11 @@ class DatabaseSeeder extends Seeder
         $verifikatorUser->syncRoles([$verifikator]);
 
         // Seed PJU data
-        $this->call(PjuPointSeeder::class);
+        $this->call([
+            CategorySeeder::class,
+            PjuTypeSeeder::class,
+            SystemSettingSeeder::class,
+            PjuPointSeeder::class,
+        ]);
     }
 }

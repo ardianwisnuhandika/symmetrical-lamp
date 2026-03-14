@@ -14,7 +14,7 @@ class PjuController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->only(['status', 'kategori', 'jenis', 'search']);
+        $filters = $request->only(['status', 'category_id', 'pju_type_id', 'kecamatan_id', 'desa_id', 'search']);
         $pjuPoints = $this->pjuService->getAll($filters);
         $stats = $this->pjuService->getStats();
 
@@ -23,18 +23,24 @@ class PjuController extends Controller
 
     public function create()
     {
-        return view('admin.pju.create');
+        $categories = \App\Models\Category::active()->get();
+        $pjuTypes = \App\Models\PjuType::active()->get();
+        $kecamatans = \App\Models\Kecamatan::active()->get();
+        
+        return view('admin.pju.create', compact('categories', 'pjuTypes', 'kecamatans'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'kategori' => 'required|in:pju,rambu,rppj,cermin',
-            'jenis' => 'required|in:sonte,led,kalipucang',
+            'category_id' => 'required|exists:categories,id',
+            'pju_type_id' => 'required|exists:pju_types,id',
             'daya' => 'nullable|string|max:50',
             'letak' => 'required|in:kiri,kanan',
             'type' => 'nullable|string|max:100',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
+            'desa_id' => 'nullable|exists:desas,id',
             'lat' => 'required|numeric|between:-90,90',
             'long' => 'required|numeric|between:-180,180',
             'status' => 'required|in:normal,mati',
@@ -54,18 +60,25 @@ class PjuController extends Controller
 
     public function edit(PjuPoint $pju)
     {
-        return view('admin.pju.edit', compact('pju'));
+        $categories = \App\Models\Category::active()->get();
+        $pjuTypes = \App\Models\PjuType::active()->get();
+        $kecamatans = \App\Models\Kecamatan::active()->get();
+        $desas = $pju->kecamatan_id ? \App\Models\Desa::where('kecamatan_id', $pju->kecamatan_id)->active()->get() : collect();
+        
+        return view('admin.pju.edit', compact('pju', 'categories', 'pjuTypes', 'kecamatans', 'desas'));
     }
 
     public function update(Request $request, PjuPoint $pju)
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'kategori' => 'required|in:pju,rambu,rppj,cermin',
-            'jenis' => 'required|in:sonte,led,kalipucang',
+            'category_id' => 'required|exists:categories,id',
+            'pju_type_id' => 'required|exists:pju_types,id',
             'daya' => 'nullable|string|max:50',
             'letak' => 'required|in:kiri,kanan',
             'type' => 'nullable|string|max:100',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
+            'desa_id' => 'nullable|exists:desas,id',
             'lat' => 'required|numeric|between:-90,90',
             'long' => 'required|numeric|between:-180,180',
             'status' => 'required|in:normal,mati',

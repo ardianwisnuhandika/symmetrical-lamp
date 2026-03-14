@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Luminous Jepara - Sistem Pemetaan & Monitoring Penerangan Jalan Umum (PJU) Kota Jepara yang Transparan dan Modern.">
-    <title>Luminous Jepara - Sistem Monitoring PJU</title>
+        content="Dishub Jepara - Sistem Pemetaan & Monitoring Penerangan Jalan Umum (PJU) Kota Jepara yang Transparan dan Modern.">
+    <title>Dishub Jepara - Sistem Monitoring PJU</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -76,13 +76,12 @@
         .nav-logo .logo-icon {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, var(--accent), #D97706);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        .nav-logo .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .nav-logo span {
@@ -833,8 +832,10 @@
     <!-- NAVBAR -->
     <nav id="navbar">
         <a href="{{ route('home') }}" class="nav-logo">
-            <div class="logo-icon">💡</div>
-            <span>Luminous Jepara</span>
+            <div class="logo-icon">
+                <img src="{{ asset('images/logo-dishub.svg') }}" alt="Logo Dishub Jepara">
+            </div>
+            <span>Dishub Jepara</span>
         </a>
         <div class="nav-links">
             <a href="{{ route('home') }}">Home</a>
@@ -860,7 +861,7 @@
                 <span class="dot"></span>
                 Sistem Aktif & Realtime
             </div>
-            <h1>Luminous<br>Jepara</h1>
+            <h1>Dishub<br>Jepara</h1>
             <p>
                 Sistem pemetaan dan monitoring Penerangan Jalan Umum (PJU) Kota Jepara yang transparan, modern, dan
                 dapat diakses publik maupun instansi terkait.
@@ -1052,7 +1053,10 @@
     <!-- FOOTER -->
     <footer>
         <div class="footer-inner">
-            <div class="footer-logo">💡 Luminous Jepara</div>
+            <div class="footer-logo" style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="{{ asset('images/logo-dishub.svg') }}" alt="Logo Dishub Jepara" style="width: 24px; height: 24px;">
+                Dishub Jepara
+            </div>
             <div class="footer-copy">© {{ date('Y') }} Dinas Perhubungan Kabupaten Jepara. Sistem Informasi PJU.</div>
         </div>
     </footer>

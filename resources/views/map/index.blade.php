@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Map - Luminous Jepara</title>
+    <title>Monitoring Map - Dishub Jepara</title>
     <meta name="description" content="Peta monitoring interaktif Penerangan Jalan Umum (PJU) Kabupaten Jepara.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -66,12 +66,12 @@
         .tb-logo-icon {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, var(--accent), #D97706);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+        }
+        
+        .tb-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .tb-logo span {
@@ -604,8 +604,10 @@
     <!-- TOPBAR -->
     <header class="topbar">
         <a href="{{ route('home') }}" class="tb-logo">
-            <div class="tb-logo-icon">💡</div>
-            <span>Luminous Jepara</span>
+            <div class="tb-logo-icon">
+                <img src="{{ asset('images/logo-dishub.svg') }}" alt="Logo Dishub Jepara">
+            </div>
+            <span>Dishub Jepara</span>
         </a>
         <div class="tb-right">
             <span style="font-size:0.78rem;color:var(--text-3);" id="update-time">Memuat data...</span>

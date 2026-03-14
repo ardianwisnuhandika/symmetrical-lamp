@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Luminous Jepara</title>
+    <title>@yield('title') - Dishub Jepara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@800&display=swap"
@@ -76,16 +76,15 @@
         }
 
         .auth-logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), #D97706);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 0.75rem;
-            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        
+        .auth-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .auth-logo h1 {
@@ -222,8 +221,10 @@
     <div class="auth-box">
         <div class="auth-card">
             <div class="auth-logo">
-                <div class="auth-logo-icon">💡</div>
-                <h1>Luminous Jepara</h1>
+                <div class="auth-logo-icon">
+                    <img src="{{ asset('images/logo-dishub.svg') }}" alt="Logo Dishub Jepara">
+                </div>
+                <h1>Dishub Jepara</h1>
                 <p>Sistem Monitoring PJU Kabupaten Jepara</p>
             </div>
             @yield('content')

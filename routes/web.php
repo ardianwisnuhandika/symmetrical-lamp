@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('landing');
+    return redirect()->route('map.index');
 })->name('home');
 
 Route::get('/monitoring-map', [MapController::class, 'index'])->name('map.index');

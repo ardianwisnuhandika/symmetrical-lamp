@@ -3,17 +3,28 @@
 namespace Database\Seeders;
 
 use App\Models\PjuPoint;
+use App\Models\Category;
+use App\Models\PjuType;
 use Illuminate\Database\Seeder;
 
 class PjuPointSeeder extends Seeder
 {
     public function run(): void
     {
+        // Get category and type IDs
+        $pjuCat = Category::where('slug', 'pju')->first()->id;
+        $rambuCat = Category::where('slug', 'rambu')->first()->id;
+        $cerminCat = Category::where('slug', 'cermin')->first()->id;
+        
+        $ledType = PjuType::where('slug', 'led')->first()->id;
+        $sonteType = PjuType::where('slug', 'sonte')->first()->id;
+        $kalipucangType = PjuType::where('slug', 'kalipucang')->first()->id;
+
         $points = [
             [
                 'nama' => 'PJU-001 - Jl. Pemuda',
-                'kategori' => 'pju',
-                'jenis' => 'led',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '150w',
                 'letak' => 'kiri',
                 'type' => 'Stang 4m',
@@ -24,8 +35,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-002 - Jl. Sultan Hadlirin',
-                'kategori' => 'pju',
-                'jenis' => 'led',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '150w',
                 'letak' => 'kanan',
                 'type' => 'Stang 4m',
@@ -36,8 +47,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-003 - Jl. Diponegoro',
-                'kategori' => 'pju',
-                'jenis' => 'sonte',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $sonteType,
                 'daya' => '250w',
                 'letak' => 'kiri',
                 'type' => 'Tiang 6m',
@@ -48,8 +59,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-004 - Jl. Kartini',
-                'kategori' => 'pju',
-                'jenis' => 'led',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '100w',
                 'letak' => 'kiri',
                 'type' => 'Stang 4m',
@@ -60,8 +71,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-005 - Jl. Ahmad Yani',
-                'kategori' => 'pju',
-                'jenis' => 'kalipucang',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $kalipucangType,
                 'daya' => '150w',
                 'letak' => 'kanan',
                 'type' => 'Stang 5m',
@@ -72,8 +83,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-006 - Jl. R.A. Kartini (Tahunan)',
-                'kategori' => 'pju',
-                'jenis' => 'led',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '150w',
                 'letak' => 'kiri',
                 'type' => 'Stang 4m',
@@ -84,8 +95,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'RAMBU-001 - Pertigaan Jl. Pemuda',
-                'kategori' => 'rambu',
-                'jenis' => 'led',
+                'category_id' => $rambuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '50w',
                 'letak' => 'kiri',
                 'type' => 'Tiang 3m',
@@ -96,8 +107,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-007 - Jl. Hos Cokroaminoto',
-                'kategori' => 'pju',
-                'jenis' => 'sonte',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $sonteType,
                 'daya' => '250w',
                 'letak' => 'kanan',
                 'type' => 'Tiang 8m',
@@ -108,8 +119,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'CERMIN-001 - Tikungan Jl. Dr. Sutomo',
-                'kategori' => 'cermin',
-                'jenis' => 'led',
+                'category_id' => $cerminCat,
+                'pju_type_id' => $ledType,
                 'daya' => '30w',
                 'letak' => 'kiri',
                 'type' => 'Tiang 2m',
@@ -120,8 +131,8 @@ class PjuPointSeeder extends Seeder
             ],
             [
                 'nama' => 'PJU-008 - Alun-Alun Jepara',
-                'kategori' => 'pju',
-                'jenis' => 'led',
+                'category_id' => $pjuCat,
+                'pju_type_id' => $ledType,
                 'daya' => '200w',
                 'letak' => 'kiri',
                 'type' => 'Stang Dekoratif 6m',

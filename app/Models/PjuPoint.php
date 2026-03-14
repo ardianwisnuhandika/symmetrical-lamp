@@ -11,13 +11,15 @@ class PjuPoint extends Model
 
     protected $fillable = [
         'nama',
-        'kategori',
-        'jenis',
+        'category_id',
+        'pju_type_id',
         'daya',
         'letak',
         'type',
         'lat',
         'long',
+        'kecamatan_id',
+        'desa_id',
         'status',
         'is_verified',
         'created_by',
@@ -42,6 +44,26 @@ class PjuPoint extends Model
     public function verifier()
     {
         return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function pjuType()
+    {
+        return $this->belongsTo(PjuType::class);
+    }
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 
     public function getStatusBadgeAttribute(): string
