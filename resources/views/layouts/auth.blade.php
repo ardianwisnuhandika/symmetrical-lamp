@@ -31,6 +31,7 @@
             font-family: 'Inter', sans-serif;
             background: var(--navy);
             color: var(--text-1);
+            line-height: 1.35;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -65,7 +66,7 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 2.5rem;
+            padding: 2.2rem;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
 
@@ -113,12 +114,13 @@
 
         .form-control {
             width: 100%;
-            padding: 0.7rem 1rem;
+            min-height: 40px;
+            padding: 0.62rem 0.92rem;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text-1);
-            font-size: 0.875rem;
+            font-size: 0.86rem;
             font-family: 'Inter', sans-serif;
             outline: none;
             transition: all 0.2s;
@@ -151,7 +153,8 @@
 
         .btn-submit {
             width: 100%;
-            padding: 0.75rem;
+            min-height: 42px;
+            padding: 0.68rem;
             background: linear-gradient(135deg, var(--accent), #D97706);
             color: #000;
             font-weight: 700;

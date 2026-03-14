@@ -21,6 +21,13 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+
+        $user = $request->user();
+
+        if ($user && $user->can('verify_pju') && !$user->can('create_pju') && !$user->can('manage_users')) {
+            return redirect()->intended(route('admin.verification.index'));
+        }
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

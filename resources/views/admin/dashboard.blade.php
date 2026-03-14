@@ -1,149 +1,250 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
-@section('page-title', '📊 Dashboard Overview')
+@section('page-title', 'Dashboard Monitoring')
 
 @section('content')
-    <div class="stats-grid">
-        <div class="stat-card" style="--accent-color:rgba(245,158,11,0.07)">
-            <div class="stat-icon" style="background:rgba(245,158,11,0.1);font-size:1.5rem;">💡</div>
-            <div class="stat-val">{{ $stats['total'] }}</div>
-            <div class="stat-lbl">Total Titik PJU</div>
-            <div class="stat-trend up">↑ Semua titik terdaftar</div>
+    <style>
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(180deg, rgba(21, 40, 76, 0.95), rgba(16, 32, 64, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .kpi-title {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            line-height: 1.05;
+            font-weight: 700;
+        }
+
+        .kpi-note {
+            font-size: 13px;
+            color: var(--muted-2);
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+            gap: 12px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .quick-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .quick-ico {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .donut-wrap {
+            width: 152px;
+            height: 152px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+
+        .donut-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .donut-total {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .legend-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    @php
+        $total = max($stats['total'], 1);
+        $normalPct = round(($stats['normal'] / $total) * 100);
+        $matiPct = round(($stats['mati'] / $total) * 100);
+        $verPct = round(($stats['verified'] / $total) * 100);
+    @endphp
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-top">
+                <div class="kpi-title">Total Titik PJU</div>
+                <div>??</div>
+            </div>
+            <div class="kpi-value">{{ $stats['total'] }}</div>
+            <div class="kpi-note">Seluruh data titik terdaftar</div>
         </div>
-        <div class="stat-card" style="--accent-color:rgba(16,185,129,0.07)">
-            <div class="stat-icon" style="background:rgba(16,185,129,0.1);font-size:1.5rem;">✅</div>
-            <div class="stat-val" style="color:#10B981;">{{ $stats['normal'] }}</div>
-            <div class="stat-lbl">Status Normal</div>
-            <div class="stat-trend up" style="color:#10B981;">● Beroperasi</div>
+
+        <div class="kpi-card">
+            <div class="kpi-top">
+                <div class="kpi-title">Status Normal</div>
+                <div style="color:#10b981;">?</div>
+            </div>
+            <div class="kpi-value" style="color:#10b981;">{{ $stats['normal'] }}</div>
+            <div class="kpi-note">Beroperasi normal</div>
         </div>
-        <div class="stat-card" style="--accent-color:rgba(239,68,68,0.07)">
-            <div class="stat-icon" style="background:rgba(239,68,68,0.1);font-size:1.5rem;">🔴</div>
-            <div class="stat-val" style="color:#EF4444;">{{ $stats['mati'] }}</div>
-            <div class="stat-lbl">Status Mati / Rusak</div>
-            <div class="stat-trend down">⚠ Perlu perhatian</div>
+
+        <div class="kpi-card">
+            <div class="kpi-top">
+                <div class="kpi-title">Status Mati / Rusak</div>
+                <div style="color:#ef4444;">?</div>
+            </div>
+            <div class="kpi-value" style="color:#ef4444;">{{ $stats['mati'] }}</div>
+            <div class="kpi-note">Butuh tindak lanjut</div>
         </div>
-        <div class="stat-card" style="--accent-color:rgba(59,130,246,0.07)">
-            <div class="stat-icon" style="background:rgba(59,130,246,0.1);font-size:1.5rem;">👥</div>
-            <div class="stat-val" style="color:#3B82F6;">{{ $totalUsers }}</div>
-            <div class="stat-lbl">Total User Admin</div>
-            <div class="stat-trend">3 Role Aktif</div>
+
+        <div class="kpi-card">
+            <div class="kpi-top">
+                <div class="kpi-title">Total User Admin</div>
+                <div>??</div>
+            </div>
+            <div class="kpi-value" style="color:#60a5fa;">{{ $totalUsers }}</div>
+            <div class="kpi-note">Super admin, dishub, verifikator</div>
         </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;">
-        <!-- Quick Map -->
+    <div class="dash-grid">
         <div class="card">
             <div class="card-header">
-                <span class="card-title">🗺️ Peta Distribusi PJU</span>
+                <div class="card-title">Peta Distribusi PJU</div>
                 <a href="{{ route('admin.map') }}" class="btn btn-ghost btn-sm">Buka Fullscreen</a>
             </div>
-            <div style="height:320px;background:#0d1929;position:relative;overflow:hidden;" id="mini-map"></div>
+            <div id="mini-map" style="height:360px;"></div>
         </div>
 
-        <!-- Status Chart -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">📈 Status Overview</span>
+                <div class="card-title">Ringkasan Status</div>
             </div>
             <div class="card-body">
-                <!-- Donut chart via CSS -->
-                @php
-                    $total = max($stats['total'], 1);
-                    $normalPct = round(($stats['normal'] / $total) * 100);
-                    $matiPct = round(($stats['mati'] / $total) * 100);
-                    $verPct = round(($stats['verified'] / $total) * 100);
-                @endphp
-                <div style="text-align:center;margin-bottom:1.5rem;">
-                    <div style="position:relative;width:140px;height:140px;margin:0 auto;">
-                        <svg viewBox="0 0 36 36" style="transform:rotate(-90deg);width:100%;height:100%">
-                            <circle cx="18" cy="18" r="15.9155" fill="none" stroke="rgba(255,255,255,0.05)"
-                                stroke-width="3" />
-                            <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#10B981" stroke-width="3"
-                                stroke-dasharray="{{ $normalPct }} {{ 100 - $normalPct }}" stroke-linecap="round" />
-                            <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#EF4444" stroke-width="3"
-                                stroke-dasharray="{{ $matiPct }} {{ 100 - $matiPct }}" stroke-dashoffset="{{ -$normalPct }}"
-                                stroke-linecap="round" />
-                        </svg>
-                        <div
-                            style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                            <span
-                                style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;">{{ $total }}</span>
-                            <span style="font-size:0.65rem;color:var(--text-3);">Total PJU</span>
-                        </div>
+                <div class="donut-wrap">
+                    <svg viewBox="0 0 36 36" style="transform:rotate(-90deg);width:100%;height:100%">
+                        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"></circle>
+                        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#10B981" stroke-width="3" stroke-dasharray="{{ $normalPct }} {{ 100 - $normalPct }}" stroke-linecap="round"></circle>
+                        <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="{{ $matiPct }} {{ 100 - $matiPct }}" stroke-dashoffset="{{ -$normalPct }}" stroke-linecap="round"></circle>
+                    </svg>
+                    <div class="donut-center">
+                        <div class="donut-total">{{ $total }}</div>
+                        <div style="font-size:12px;color:var(--muted-2);">Total Titik</div>
                     </div>
                 </div>
-                <div style="display:flex;flex-direction:column;gap:0.75rem;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;">
-                            <div style="width:10px;height:10px;border-radius:50%;background:#10B981;"></div>
-                            Normal
-                        </div>
-                        <div style="font-weight:700;color:#10B981;">{{ $stats['normal'] }} <span
-                                style="color:var(--text-3);font-weight:400;">({{ $normalPct }}%)</span></div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;">
-                            <div style="width:10px;height:10px;border-radius:50%;background:#EF4444;"></div>
-                            Mati / Rusak
-                        </div>
-                        <div style="font-weight:700;color:#EF4444;">{{ $stats['mati'] }} <span
-                                style="color:var(--text-3);font-weight:400;">({{ $matiPct }}%)</span></div>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;">
-                            <div style="width:10px;height:10px;border-radius:50%;background:#3B82F6;"></div>
-                            Terverifikasi
-                        </div>
-                        <div style="font-weight:700;color:#3B82F6;">{{ $stats['verified'] }} <span
-                                style="color:var(--text-3);font-weight:400;">({{ $verPct }}%)</span></div>
-                    </div>
+
+                <div class="legend-row">
+                    <div class="legend-left"><span class="dot" style="background:#10B981;"></span>Normal</div>
+                    <div>{{ $stats['normal'] }} ({{ $normalPct }}%)</div>
                 </div>
-                <div style="margin-top:1.5rem;">
-                    <div
-                        style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-3);margin-bottom:0.3rem;">
-                        <span>Progress Verifikasi</span><span>{{ $verPct }}%</span>
-                    </div>
-                    <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;">
-                        <div
-                            style="width:{{ $verPct }}%;height:100%;background:linear-gradient(90deg,#3B82F6,#60A5FA);border-radius:3px;">
-                        </div>
-                    </div>
+                <div class="legend-row">
+                    <div class="legend-left"><span class="dot" style="background:#EF4444;"></span>Mati / Rusak</div>
+                    <div>{{ $stats['mati'] }} ({{ $matiPct }}%)</div>
+                </div>
+                <div class="legend-row" style="margin-bottom:12px;">
+                    <div class="legend-left"><span class="dot" style="background:#3B82F6;"></span>Terverifikasi</div>
+                    <div>{{ $stats['verified'] }} ({{ $verPct }}%)</div>
+                </div>
+
+                <div style="font-size:12px;color:var(--muted-2);margin-bottom:6px;">Progress Verifikasi {{ $verPct }}%</div>
+                <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;">
+                    <div style="height:100%;width:{{ $verPct }}%;background:linear-gradient(90deg,#3B82F6,#60A5FA);"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;">
-        <a href="{{ route('admin.pju.create') }}" class="card"
-            style="text-decoration:none;padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:all 0.2s;">
-            <div
-                style="width:44px;height:44px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
-                ➕</div>
+    <div class="quick-grid">
+        @can('create_pju')
+            <a href="{{ route('admin.pju.create') }}" class="card quick-card">
+                <div class="quick-ico">+</div>
+                <div>
+                    <div style="font-weight:700;">Tambah PJU Baru</div>
+                    <div style="font-size:13px;color:var(--muted-2);">Input titik baru dari lapangan</div>
+                </div>
+            </a>
+        @endcan
+
+        <a href="{{ route('admin.pju.index') }}?status=mati" class="card quick-card">
+            <div class="quick-ico" style="color:#ef4444;">!</div>
             <div>
-                <div style="font-weight:600;font-size:0.9rem;">Tambah PJU Baru</div>
-                <div style="font-size:0.75rem;color:var(--text-3);">Input titik PJU</div>
+                <div style="font-weight:700;">PJU Mati</div>
+                <div style="font-size:13px;color:#fca5a5;">{{ $stats['mati'] }} perlu tindakan</div>
             </div>
         </a>
-        <a href="{{ route('admin.pju.index') }}?status=mati" class="card"
-            style="text-decoration:none;padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:all 0.2s;">
-            <div
-                style="width:44px;height:44px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
-                🔴</div>
+
+        <a href="{{ route('admin.pju.index') }}?is_verified=0" class="card quick-card">
+            <div class="quick-ico" style="color:#f59e0b;">?</div>
             <div>
-                <div style="font-weight:600;font-size:0.9rem;">PJU Mati</div>
-                <div style="font-size:0.75rem;color:var(--red);">{{ $stats['mati'] }} perlu tindakan</div>
-            </div>
-        </a>
-        <a href="{{ route('admin.pju.index') }}?is_verified=0" class="card"
-            style="text-decoration:none;padding:1.25rem;display:flex;align-items:center;gap:1rem;transition:all 0.2s;">
-            <div
-                style="width:44px;height:44px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
-                ⏳</div>
-            <div>
-                <div style="font-weight:600;font-size:0.9rem;">Pending Verifikasi</div>
-                <div style="font-size:0.75rem;color:var(--accent);">Menunggu approval</div>
+                <div style="font-weight:700;">Pending Verifikasi</div>
+                <div style="font-size:13px;color:#fcd34d;">Menunggu persetujuan</div>
             </div>
         </a>
     </div>
@@ -153,16 +254,25 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const miniMap = L.map('mini-map', { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false })
-            .setView([-6.5886, 110.6679], 13);
+        const miniMap = L.map('mini-map', {
+            zoomControl: false,
+            attributionControl: false,
+            dragging: false,
+            scrollWheelZoom: false
+        }).setView([-6.5886, 110.6679], 13);
+
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(miniMap);
 
         fetch('/api/markers').then(r => r.json()).then(data => {
             data.forEach(p => {
                 const color = p.status === 'normal' ? '#F59E0B' : '#EF4444';
-                const marker = L.circleMarker([p.lat, p.lng], {
-                    radius: 5, fillColor: color, color: color,
-                    weight: 1, opacity: 1, fillOpacity: 0.9,
+                L.circleMarker([p.lat, p.lng], {
+                    radius: 5,
+                    fillColor: color,
+                    color: color,
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.9,
                 }).addTo(miniMap);
             });
         });

@@ -34,7 +34,9 @@
                 </select>
                 <button type="submit" class="btn btn-accent">Filter</button>
                 <a href="{{ route('admin.pju.index') }}" class="btn btn-ghost">Reset</a>
+                                @can('create_pju')
                 <a href="{{ route('admin.pju.create') }}" class="btn btn-accent" style="margin-left:auto;">+ Tambah PJU</a>
+                                @endcan
             </form>
         </div>
     </div>
@@ -140,7 +142,9 @@
                             </td>
                             <td>
                                 <div style="display:flex;gap:0.3rem;flex-wrap:wrap;">
+                                    @can('edit_pju')
                                     <a href="{{ route('admin.pju.edit', $pju) }}" class="btn btn-ghost btn-sm">✏️ Edit</a>
+                                    @endcan
 
                                     @can('verify_pju')
                                         @if(!$pju->is_verified)
@@ -173,8 +177,10 @@
                             <td colspan="11" style="text-align:center;padding:3rem;color:var(--text-3);">
                                 <div style="font-size:3rem;margin-bottom:1rem;">💡</div>
                                 <div>Tidak ada data PJU ditemukan</div>
+                                @can('create_pju')
                                 <a href="{{ route('admin.pju.create') }}" class="btn btn-accent" style="margin-top:1rem;">+
                                     Tambah PJU Pertama</a>
+                                @endcan
                             </td>
                         </tr>
                     @endforelse

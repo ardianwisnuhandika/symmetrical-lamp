@@ -12,10 +12,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create roles
-        $superAdmin = Role::create(['name' => 'super_admin']);
-        $adminDishub = Role::create(['name' => 'admin_dishub']);
-        $verifikator = Role::create(['name' => 'verifikator']);
+        // Create roles (idempotent)
+        $superAdmin = Role::findOrCreate('super_admin', 'web');
+        $adminDishub = Role::findOrCreate('admin_dishub', 'web');
+        $verifikator = Role::findOrCreate('verifikator', 'web');
 
         // Create permissions
         $permissions = [
@@ -30,35 +30,38 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($permissions as $perm) {
-            Permission::create(['name' => $perm]);
+            Permission::findOrCreate($perm, 'web');
         }
 
         // Assign permissions to roles
-        $superAdmin->givePermissionTo(Permission::all());
-        $adminDishub->givePermissionTo(['view_dashboard', 'view_pju', 'create_pju', 'edit_pju']);
-        $verifikator->givePermissionTo(['view_dashboard', 'view_pju', 'verify_pju']);
+        $superAdmin->syncPermissions(Permission::all());
+        $adminDishub->syncPermissions(['view_dashboard', 'view_pju', 'create_pju', 'edit_pju']);
+        $verifikator->syncPermissions(['view_dashboard', 'view_pju', 'verify_pju']);
 
         // Create users
-        $superAdminUser = User::create([
-            'name' => 'Super Admin',
+        $superAdminUser = User::updateOrCreate([
             'email' => 'superadmin@luminousjepara.id',
+        ], [
+            'name' => 'Super Admin',
             'password' => Hash::make('password'),
         ]);
-        $superAdminUser->assignRole($superAdmin);
+        $superAdminUser->syncRoles([$superAdmin]);
 
-        $adminUser = User::create([
-            'name' => 'Admin Dishub',
+        $adminUser = User::updateOrCreate([
             'email' => 'admin@luminousjepara.id',
+        ], [
+            'name' => 'Admin Dishub',
             'password' => Hash::make('password'),
         ]);
-        $adminUser->assignRole($adminDishub);
+        $adminUser->syncRoles([$adminDishub]);
 
-        $verifikatorUser = User::create([
-            'name' => 'Verifikator',
+        $verifikatorUser = User::updateOrCreate([
             'email' => 'verifikator@luminousjepara.id',
+        ], [
+            'name' => 'Verifikator',
             'password' => Hash::make('password'),
         ]);
-        $verifikatorUser->assignRole($verifikator);
+        $verifikatorUser->syncRoles([$verifikator]);
 
         // Seed PJU data
         $this->call(PjuPointSeeder::class);
